@@ -96,9 +96,9 @@ Emitter.emit('postMessage', 'your-data')
 
 Sob esta cracteristica todas as chamadas a API devem prover um identificador para poder "identificar" a mensagem de resposta uma vez que não são vinculantes e podem chamar recursos ou funções que podem ter uma natureza "assincrona".
 
-Uma observação importante deve ser dita:
-
-O plugin só poderá efetivamente utilizar "postMessage" após receber do script principal a primeira mensagem. O script principal abre o canal de comunicação `700ms` após acomodar o `<iframe>` do plugin ao documento principal.
+> Uma observação importante deve ser dita:
+>
+> O plugin só poderá efetivamente utilizar "postMessage" após receber do script principal a primeira mensagem. O script principal abre o canal de comunicação `700ms` após acomodar o `<iframe>` do plugin ao documento principal.
 
 
 ### Limits:
