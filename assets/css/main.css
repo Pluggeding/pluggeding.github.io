@@ -1,0 +1,25 @@
+/**
+ * @license The MIT License (MIT)             - [https://github.com/Pluggeding/pluggeding.github.io/blob/master/LICENSE]
+ * @copyright Copyright (c) 2019 Lauro Moraes - [https://github.com/subversivo58]
+ * @version 0.1.0 [development stage]         - [https://github.com/Pluggeding/pluggeding.github.io/blob/master/VERSIONING.md]
+ */
+@charset "utf-8";
+:root {
+  font-size: 16px!important;
+}
+/* View Port Width and Height */
+.vwh-100 {
+  width: 100vw;
+  height: 100vh;
+}
+.vw-100 {
+  width: 100vw;
+}
+.vh-100 {
+  height: 100vh;
+}
+.nowrap {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+}
