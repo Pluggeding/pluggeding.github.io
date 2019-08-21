@@ -48,6 +48,8 @@ import IDBStorage from './modules/IDBStorage.mjs'
 // After HTMLDocument is charged and parsed [don't wait charge stylesheet's, images and subframe's]
 _.event(dc, 'DOMContentLoaded', evt => {
 
+    let IsFrameBox = (window.location !== window.top.location) ? true : false
+
     // on "top" CorePlugin call BootstrapNative JavaScript Functions
     BootstrapNative.initCallback()
 
