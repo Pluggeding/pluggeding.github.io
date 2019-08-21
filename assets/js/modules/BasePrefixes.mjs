@@ -19,8 +19,9 @@
  */
 export let IsServiceWorkerContext = ( ('WorkerGlobalScope' in self) && ('ServiceWorkerGlobalScope' in self) ) ? true : false,
            IsWebWorkerContext     = ( ('WorkerGlobalScope' in self) && !('ServiceWorkerGlobalScope' in self) ) ? true : false,
-           IsWebBrowserContext    = ( ('window' in self && 'document' in self) && !IsServiceWorkerContext && !IsWebWorkerContext) ? true : false
-
+           IsWebBrowserContext    = ( ('window' in self && 'document' in self) && !IsServiceWorkerContext && !IsWebWorkerContext) ? true : false,
+           // check if is frame context
+           IsFrameBox = (window.location !== window.top.location) ? true : false
 /**
  * global constant's (aka: variables) [imutables]
  */
@@ -28,10 +29,10 @@ export const noop = () => {}
 export const dc = IsWebBrowserContext ? document : false,
         wd = IsWebBrowserContext ? window : self,
         nv = wd.navigator,
-        sw = IsWebBrowserContext ? nv.serviceWorker : {},
+        sw = (IsWebBrowserContext && !IsFrameBox) ? nv.serviceWorker : {},
         ua = nv.userAgent,
-        ls = IsWebBrowserContext ? wd.localStorage : noop(),
-        ss = IsWebBrowserContext ? wd.sessionStorage : noop(),
+        ls = (IsWebBrowserContext && !IsFrameBox) ? wd.localStorage : noop(),
+        ss = (IsWebBrowserContext && !IsFrameBox) ? wd.sessionStorage : noop(),
         ot = IsWebBrowserContext ? dc.title : 'Subversivo58',
         dt = (function() {
             return new Date().toString()
@@ -48,20 +49,20 @@ export const dc = IsWebBrowserContext ? document : false,
         // root (domain)
         BaseRoot = uri + '//' + location.host + '/',
 
-        XHR = IsWebBrowserContext ? ( new XMLHttpRequest() ) : noop(),
+        XHR = (IsWebBrowserContext && !IsFrameBox) ? ( new XMLHttpRequest() ) : noop(),
         FD  = ( new FormData() ),
         // global get APIS...
-        indexedDB      = wd.indexedDB || false,
-        IDBTransaction = wd.IDBTransaction || false,
-        IDBKeyRange    = wd.IDBKeyRange || false,
+        indexedDB      = (IsWebBrowserContext && !IsFrameBox) ? wd.indexedDB : false,
+        IDBTransaction = (IsWebBrowserContext && !IsFrameBox) ? wd.IDBTransaction : false,
+        IDBKeyRange    = (IsWebBrowserContext && !IsFrameBox) ? wd.IDBKeyRange : false,
         URL            = wd.URL || false,
         Geolocation    = IsWebBrowserContext ? nv.geolocation : noop(),
         RegLogout      = IsWebBrowserContext ? nv.sendBeacon : noop(),
         Notifics       = IsWebBrowserContext ? wd.Notification : noop(),
         Fetch          = wd.fetch || false,
-        Storage        = IsWebBrowserContext ? wd.Storage : noop(),
-        Worker         = IsWebBrowserContext ? wd.Worker : noop(),
-        ServiceWorker  = IsWebBrowserContext ? nv.serviceWorker : noop(),
+        Storage        = (IsWebBrowserContext && !IsFrameBox) ? wd.Storage : noop(),
+        Worker         = (IsWebBrowserContext && !IsFrameBox) ? wd.Worker : noop(),
+        ServiceWorker  = (IsWebBrowserContext && !IsFrameBox) ? nv.serviceWorker : noop(),
         Promise        = wd.Promise || false
 
 // global invoques dont use vars !IMPORTANT!
