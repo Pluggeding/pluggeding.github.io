@@ -108,7 +108,7 @@ _.event(dc, 'DOMContentLoaded', evt => {
                         }, true)
 
                         // send plugin metadata
-                        Events.emit('postMessage', JSON.stringify({
+                        Events.emit('postMessage', {
                             "name": "Plugin Name",
                             "description": "Plugin description",
                             "permissions": {
@@ -124,7 +124,7 @@ _.event(dc, 'DOMContentLoaded', evt => {
                                     "geolocation"
                                 ]
                             }
-                        }))
+                        })
                     })
                 })
             } else {
