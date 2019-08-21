@@ -53,4 +53,37 @@ _.event(dc, 'DOMContentLoaded', evt => {
     // on "top" CorePlugin call BootstrapNative JavaScript Functions
     BootstrapNative.initCallback()
 
+    const Events = new Emitter()
+
+    // main router
+    const router = UTILS.pN(true)
+    switch (router) {
+        case 'index':
+            break
+        case 'store':
+
+           /**
+            * Receive "source" from first communication
+            */
+           const PostMessageListener = source => {
+               Events.on('postMessage', function(message) {
+                   // overwrite message to {Object} add plugin id - because this, "pluginId" is reserved key
+                   source.postMessage(message, '*')
+               })
+           }
+
+           // incoming messages
+           _.event(wd, 'message', data => {
+               console.log(data)
+           })
+
+           //
+           _.event(_.getBI('fake-install'), 'click', evt => {
+               //
+           })
+
+           break
+    }
+
+
 }, UTILS.EventOptions(false, true, true), true)
