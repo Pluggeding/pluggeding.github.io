@@ -10,6 +10,7 @@ import {
     IsWebBrowserContext,
     IsWebWorkerContext,
     IsServiceWorkerContext,
+    IsFrameBox,
     noop, dc, wd, nv, sw, ua, ls, ss, ot, dt, ts,
     // PHP time() approach
     time,
@@ -62,27 +63,75 @@ _.event(dc, 'DOMContentLoaded', evt => {
             break
         case 'store':
 
-           /**
-            * Receive "source" from first communication
-            */
-           const PostMessageListener = source => {
-               Events.on('postMessage', function(message) {
-                   // overwrite message to {Object} add plugin id - because this, "pluginId" is reserved key
-                   source.postMessage(message, '*')
-               })
-           }
+            // only istall on frame box
+            if ( IsFrameBox ) {
+                /**
+                 * Receive "source" from first communication
+                 */
+                const PostMessageListener = source => {
+                    Events.on('postMessage', function(message) {
+                        // overwrite message to {Object} add plugin id - because this, "pluginId" is reserved key
+                        source.postMessage(message, '*')
+                    })
+                }
 
-           // incoming messages
-           _.event(wd, 'message', data => {
-               console.log(data)
-           })
+                // incoming messages
+                _.event(wd, 'message', data => {
+                    // check if have origin and origin is TLS protocol
+                    if ( !event.origin /*|| !/https/.test(event.origin)*/ ) {
+                        return
+                    }
+                    // check credentials...
+                    if ( 'handshake' === event.data /*check credential*/) {
+                        PostMessageListener(event.source)        // enable communication ... define "source"
+                        Events.emit('postMessage', 'handshake')  // response to origin about this handshake
+                        Emitter.emit('handshake', 'event.data')  // notify current script that communication opened
+                    } else {
+                        // "gatekeeper" for incoming messages
+                        Emitter.emit('onmessage', event.data)
+                    }
+                })
 
-           //
-           _.event(_.getBI('fake-install'), 'click', evt => {
-               //
-           })
+                Events.on('handshake', () => {
+                    Events.on('message', data => {
+                        console.log(data) // plugin istalled response
+                    })
+                    //
+                    _.event(_.getBI('fake-install'), 'click', evt => {
+                        // store waithing response id
+                        Events.on('install-xxxx', data => {
+                            if ( data.detail ) {
+                                console.log('> Plugin has been installed!')
+                            } else {
+                                console.log('> Plugin refused installation!')
+                            }
+                        }, true)
 
-           break
+                        // send plugin metadata
+                        Events.emit('postMessage', {
+                            "name": "Plugin Name",
+                            "description": "Plugin description",
+                            "permissions": {
+                                "required": [
+                                    "user-info",
+                                    "user-contacts",
+                                    "indexeddb",
+                                    "storage"
+                                ],
+                                "optional": [
+                                    "notification",
+                                    "webpush",
+                                    "geolocation"
+                                ]
+                            }
+                        })
+                    })
+                })
+            } else {
+                // disable all installation buttons
+            }
+
+            break
     }
 
 
