@@ -69,9 +69,9 @@ _.event(dc, 'DOMContentLoaded', evt => {
                  * Receive "source" from first communication
                  */
                 const PostMessageListener = source => {
-                    Events.on('postMessage', function(message) {
+                    Events.on('postMessage', data => {
                         // overwrite message to {Object} add plugin id - because this, "pluginId" is reserved key
-                        source.postMessage(message, '*')
+                        source.postMessage(data.detail, '*')
                     })
                 }
 
