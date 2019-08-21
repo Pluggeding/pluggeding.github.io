@@ -85,10 +85,10 @@ _.event(dc, 'DOMContentLoaded', evt => {
                     if ( 'handshake' === event.data /*check credential*/) {
                         PostMessageListener(event.source)        // enable communication ... define "source"
                         Events.emit('postMessage', 'handshake')  // response to origin about this handshake
-                        Emitter.emit('handshake', 'event.data')  // notify current script that communication opened
+                        Events.emit('handshake', 'event.data')  // notify current script that communication opened
                     } else {
                         // "gatekeeper" for incoming messages
-                        Emitter.emit('onmessage', event.data)
+                        Events.emit('onmessage', event.data)
                     }
                 })
 
@@ -108,7 +108,7 @@ _.event(dc, 'DOMContentLoaded', evt => {
                         }, true)
 
                         // send plugin metadata
-                        Events.emit('postMessage', {
+                        Events.emit('postMessage', JSON.stringify({
                             "name": "Plugin Name",
                             "description": "Plugin description",
                             "permissions": {
@@ -124,7 +124,7 @@ _.event(dc, 'DOMContentLoaded', evt => {
                                     "geolocation"
                                 ]
                             }
-                        })
+                        }))
                     })
                 })
             } else {
