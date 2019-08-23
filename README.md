@@ -1,2 +1,3 @@
-# pluggeding.github.io
-Pluggeding WebPage and Apps Store
+## Pluggeding
+
+Pluggeding is a web based plugins (apps)
