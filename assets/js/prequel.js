@@ -5,6 +5,11 @@
  */
 ;(function(wd) {
     'use strict';
+    
+    // check if is running inside "frame box" ... not apply test inside "frame box"
+    if ( window.location !== window.top.location ) {
+        return
+    }
     /**
      * Is mobile?
      * @see http://mobiledetect.com
