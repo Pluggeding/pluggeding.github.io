@@ -11,6 +11,10 @@ This document is a theoretical reference of possible native plugins (apps) ie th
 
 Default use IndexedDB for save all user files
 
+> Note: The Native File System API (formerly known as the Writeable Files API), is available behind a flag in Chrome 77 and later, and should begin an origin trial in Chrome 78 (stable in October).
+This can be considered **"the first big barrier"** that differs web apps from native apps. We hope to explore it as soon as available.
+
+
 Methods for this managment:
 
 ```none
@@ -130,6 +134,10 @@ Notes.list(Object).then(console.log).catch(console.error)
 ### Contacts
 
 Contacts is base of friends list and chat ... use Drive to saving contacts
+
+> Note: The Contact Picker API begins an origin trial in Chrome 77 (stable in September).
+This can be considered **"the second big barrier"** that differs web apps from native apps. We hope to explore it as soon as available.
+
 
 Methods for this managment:
 
